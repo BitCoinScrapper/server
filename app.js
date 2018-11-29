@@ -6,6 +6,7 @@ const cors = require('cors');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+const coinbaseRouter = require('./routes/coinbase.js');
 var app = express();
 
 var mongoose = require('mongoose');
@@ -26,5 +27,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/coinbase', coinbaseRouter);
 
 module.exports = app;
