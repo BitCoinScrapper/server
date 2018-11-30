@@ -9,6 +9,8 @@ var usersRouter = require('./routes/users');
 const coinbaseRouter = require('./routes/coinbase.js');
 var indodaxRouter = require('./routes/indodax');
 var bitstampRouter = require('./routes/bitstamp');
+const bitflyerRouter = require('./routes/bitflyer')
+
 var app = express();
 
 var mongoose = require('mongoose');
@@ -32,6 +34,7 @@ app.use('/users', usersRouter);
 app.use('/coinbase', coinbaseRouter);
 app.use('/indodax', indodaxRouter);
 app.use('/bitstamp', bitstampRouter)
+app.use('/bitflyer', bitflyerRouter)
 
 
 module.exports = app;

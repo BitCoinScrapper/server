@@ -4,8 +4,8 @@ const 	express = require('express'),
 	Middleware = require('../middlewares/index.js');
 
 /* GET users listing. */
-router.get('/', UserController.login);
-router.post('/', UserController.create);
+router.post('/login', UserController.login);
+router.post('/signup', UserController.create);
 router.put('/', Middleware.authentication, UserController.update);
 router.delete('/', Middleware.authentication, UserController.delete);
 router.post('/gSignIn', UserController.gSignIn );
