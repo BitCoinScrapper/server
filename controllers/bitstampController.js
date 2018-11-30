@@ -1,6 +1,41 @@
 const axios = require('axios')
+const request = require('request')
+const cheerio = require('cheerio') 
+
+function getNumbers(inputString){
+    var regex=/\d+\.\d+|\.\d+|\d+/g, 
+        results = [],
+        n;
+  
+    while(n = regex.exec(inputString)) {
+        results.push(parseFloat(n[0]));
+    }
+  
+    return results
+}
 
 module.exports = {
+    scrapper : (req, response) => {
+        let url = 'https://www.coindesk.com/';
+        request(url, function (err, res, body) {
+          if (err && res.statusCode !== 200) throw err;
+          let $ = cheerio.load(body)
+          let news = $('a.feature')
+          let key = Object.keys(news).join(',')
+          let valid_Key = getNumbers(key)
+          
+          let news_data = valid_Key.map(key => {
+            let data = news[String(key)]
+            return {
+              img: data.children[3].children[1].attribs.src,
+              link : data.attribs.href,
+              title : data.attribs.title
+            }
+          })
+         response.status(200).json( news_data )
+         
+        });
+    },
     ticker: (req, res) =>{
         axios({
             method : 'GET',
@@ -28,7 +63,7 @@ module.exports = {
         .then(({ data }) => {
             let transactions = data.map(datum => {
                 return {
-                    date : Number(datum.date),
+                    date : Number(datum.date)*1000,
                     price : Number(datum.tid),
                     amount : Number(datum.amount),
                     tid : Number(datum.tid),
