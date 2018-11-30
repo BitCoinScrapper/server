@@ -32,7 +32,7 @@ class IndodaxController {
             .then( response => {
                 let newTrades = response.data.map( obj => {
                     let newObj = {}
-                    newObj.date = Number(obj.date)
+                    newObj.date = Number(obj.date) * 1000
                     newObj.price = Number(obj.price)
                     newObj.amount = Number(obj.amount)
                     newObj.tid = Number(obj.tid)
@@ -43,7 +43,7 @@ class IndodaxController {
             })
             .catch( err => {
                 res.status(500).json({
-                    error: error.message
+                    error: err.message
                 })
             })
     }
